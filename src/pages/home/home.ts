@@ -11,9 +11,6 @@ import { UserProvider } from '../../providers/user/user';
 })
 export class HomePage {
 
-  conversationPage = ConversationPage;
-  loginPage = LoginPage;
-
   users: User[] = [];
   query: string;
   yuliana: User = {
@@ -29,6 +26,10 @@ export class HomePage {
   ) {
     this.users = this._userProvider.get();
     this._userProvider.add(this.yuliana);
+  }
+
+  goToConversation(user: User) {
+    this.navCtrl.push(ConversationPage, { user })
   }
 
   getItems(ev: any) {

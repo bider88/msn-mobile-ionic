@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ConversationPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { User } from '../../interfaces/user.interface';
 
 @IonicPage()
 @Component({
@@ -15,11 +9,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ConversationPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  user: User;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ConversationPage');
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams
+  ) {
+    this.user = this.navParams.get('user');
+    console.log(this.user);
   }
 
 }

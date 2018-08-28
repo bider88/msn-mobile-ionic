@@ -1,12 +1,45 @@
 <ion-header>
 
   <ion-navbar color="toolbar">
-    <ion-title>conversation</ion-title>
+    <ion-title>{{ user.name }}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  <button ion-button primary block navPop>Regresar al Home</button>
+<ion-content class="background-msn" padding>
+
+  <ion-fab right bottom>
+
+    <button ion-fab>
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab outline>
+        <img src="assets/img/zumbido.png">
+      </button>
+    </ion-fab-list>
+
+    <ion-fab-list side="left">
+      <button ion-fab color="dark">
+        <ion-icon name="camera"></ion-icon>
+      </button>
+      <button ion-fab color="dark">
+        <ion-icon name="image"></ion-icon>
+      </button>
+    </ion-fab-list>
+
+  </ion-fab>
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-input type="text" placeholder="Escribe tu mensaje..." class="footbarInput" autofocus></ion-input>
+    <ion-buttons end>
+      <button ion-button icon-only color="royal">
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

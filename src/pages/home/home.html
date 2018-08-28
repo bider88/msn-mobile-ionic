@@ -35,7 +35,7 @@
   </ion-grid>
 
   <ion-list>
-    <ion-item *ngFor="let user of users">
+    <ion-item *ngFor="let user of users" (click)="goToConversation(user)">
       <ion-avatar item-start>
         <img src="assets/img/logo_live_online.png">
       </ion-avatar>
