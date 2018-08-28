@@ -1,13 +1,47 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="toolbar">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Home</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only color="royal">
+        <img src="assets/img/logo_live_add.png" class="icon-in-button ">
+      </button>
+    </ion-buttons>
+
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <button ion-button secondary block [navPush]="conversationPage">Ir a Conversation</button>
-  <button ion-button secondary block [navPush]="loginPage">Ir a Login</button>
+<ion-content class="background-msn">
+
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+
+  <ion-grid id="homeMeContainer">
+    <ion-row>
+      <ion-col col-3>
+        <div class="avatarFrameOnline">
+          <img src="assets/img/generic_avatar.png" class="avatarImage img-fluid">
+        </div>
+      </ion-col>
+      <ion-col col-9 padding>
+        Nick<br />
+        <span>Subnick</span>
+        <br />
+        <small>eduardo@gobae.com</small>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-list>
+    <ion-item *ngFor="let user of users">
+      <ion-avatar item-start>
+        <img src="assets/img/logo_live_online.png">
+      </ion-avatar>
+      <h2>{{ user.name }}</h2>
+      <span> <small>{{ user.status }}</small> </span>
+    </ion-item>
+  </ion-list>
+
 </ion-content>
