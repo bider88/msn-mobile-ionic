@@ -19,7 +19,7 @@ export class HomePage {
     active: false,
     status: Status.Online
   };
-  offlineStatus: Status[];
+  offlineStatus: Status[] = [ Status.Offline, Status.AppearOffline ];
 
   constructor(
     public navCtrl: NavController,
@@ -27,11 +27,34 @@ export class HomePage {
   ) {
     this.users = this._userProvider.get();
     this._userProvider.add(this.yuliana);
-    this.offlineStatus = [Status.Offline, Status.AppearOffline]
   }
 
   goToConversation(user: User) {
     this.navCtrl.push(ConversationPage, { user })
+  }
+
+  getIconByStatus(status: Status) {
+    let icon = ''
+
+    switch (status) {
+      case Status.Online:
+        icon = 'logo_live_online'
+        break
+      case Status.Offline:
+        icon = 'logo_live_offline'
+        break
+      case Status.Busy:
+        icon = 'logo_live_busy'
+        break
+      case Status.Away:
+        icon = 'logo_live_away'
+        break
+      case Status.AppearOffline:
+        icon = 'logo_live_appear_offline'
+        break
+    }
+
+    return icon
   }
 
   getItems(ev: any) {

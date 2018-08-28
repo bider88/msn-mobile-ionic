@@ -25,7 +25,7 @@ export class UserProvider {
       name: 'Tito Camotito',
       age: 23,
       active: true,
-      status: Status.Online
+      status: Status.Away
     },
     {
       name: 'Raulito **',

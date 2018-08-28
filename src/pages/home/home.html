@@ -36,12 +36,11 @@
 
   <ion-list>
     <ion-item *ngFor="let user of users"
-              [ngClass]="{ 'contact-offline' : offlineStatus.includes(user.status) }"
-              [ngStyle]="{'color': offlineStatus.includes(user.status) ? 'red' : 'blue'}"
-              (click)="goToConversation(user)">
+              [ngClass]="{ 'contact-offline' : offlineStatus.includes( user.status ) }"
+              (click)="goToConversation( user )">
 
       <ion-avatar item-start>
-        <img src="assets/img/logo_live_online.png">
+        <img src="assets/img/{{ getIconByStatus( user.status ) }}.png">
       </ion-avatar>
       <h2>{{ user.name }}</h2>
       <span> <small>{{ user.status }}</small> </span>
