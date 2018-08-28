@@ -35,12 +35,17 @@
   </ion-grid>
 
   <ion-list>
-    <ion-item *ngFor="let user of users" (click)="goToConversation(user)">
+    <ion-item *ngFor="let user of users"
+              [ngClass]="{ 'contact-offline' : offlineStatus.includes(user.status) }"
+              [ngStyle]="{'color': offlineStatus.includes(user.status) ? 'red' : 'blue'}"
+              (click)="goToConversation(user)">
+
       <ion-avatar item-start>
         <img src="assets/img/logo_live_online.png">
       </ion-avatar>
       <h2>{{ user.name }}</h2>
       <span> <small>{{ user.status }}</small> </span>
+
     </ion-item>
   </ion-list>
 

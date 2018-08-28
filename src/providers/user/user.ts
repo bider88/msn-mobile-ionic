@@ -10,16 +10,28 @@ export class UserProvider {
 
   private users: User[] = [
     {
-      name: 'Eduardo',
+      name: 'Ana',
       age: 28,
+      active: true,
+      status: Status.Busy
+    },
+    {
+      name: 'Tomás',
+      age: 38,
       active: true,
       status: Status.AppearOffline
     },
     {
-      name: 'Freddy',
-      age: 19,
+      name: 'Tito Camotito',
+      age: 23,
       active: true,
       status: Status.Online
+    },
+    {
+      name: 'Raulito **',
+      age: 27,
+      active: true,
+      status: Status.Offline
     }
   ];
 

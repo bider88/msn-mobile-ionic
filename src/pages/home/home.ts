@@ -19,6 +19,7 @@ export class HomePage {
     active: false,
     status: Status.Online
   };
+  offlineStatus: Status[];
 
   constructor(
     public navCtrl: NavController,
@@ -26,6 +27,7 @@ export class HomePage {
   ) {
     this.users = this._userProvider.get();
     this._userProvider.add(this.yuliana);
+    this.offlineStatus = [Status.Offline, Status.AppearOffline]
   }
 
   goToConversation(user: User) {
