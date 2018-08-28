@@ -4,6 +4,9 @@ export interface User {
   age: number;
   active: boolean;
   status: Status;
+  nickname?: string;
+  password?: string;
+  uid?: string;
 }
 
 export enum Status {
