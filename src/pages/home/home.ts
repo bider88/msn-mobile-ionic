@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ConversationPage } from '../conversation/conversation'
-import { LoginPage } from '../login/login';
 import { User, Status } from '../../interfaces/user.interface';
 import { UserProvider } from '../../providers/user/user';
 import { AuthProvider } from '../../providers/auth/auth';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'page-home',
@@ -14,6 +14,8 @@ export class HomePage {
 
   user: User;
   users: User[] = [];
+  userDocSubs: Subscription;
+  userCollSubs: Subscription;
   query: string;
   offlineStatus: Status[] = [ Status.Offline, Status.AppearOffline ];
 
@@ -22,16 +24,29 @@ export class HomePage {
     private _authProvider: AuthProvider,
     private _userProvider: UserProvider
   ) {
-    this.user = this._authProvider.user;
 
-    console.log(this.user);
+    this._userProvider.loadUsers();
+
+    this.getCurrentUser(this._authProvider.user);
 
     this.getUsers();
   }
 
+  getCurrentUser(user: User) {
+    this._userProvider.getCurrentUser( user.uid );
+
+    this.userDocSubs = this._userProvider.user.valueChanges().subscribe(
+      user=> {
+        this.user = user;
+        this._authProvider.user = user;
+        this._authProvider.saveStorage();
+      }
+    );
+  }
+
   getUsers() {
-    this._userProvider.getUsers().subscribe(
-      users => this.users = users
+    this.userCollSubs = this._userProvider.getUsers().subscribe(
+      users =>  this.users = users
     );
   }
 
@@ -49,6 +64,11 @@ export class HomePage {
     //   })
     // }
   }
+
+  // ionViewDidLeave(){
+  //   this.userDocSubs.unsubscribe();
+  //   this.userCollSubs.unsubscribe();
+  // }
 
   goToConversation(user: User) {
     this.navCtrl.push(ConversationPage, { user })

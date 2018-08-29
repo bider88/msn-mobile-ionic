@@ -48,4 +48,13 @@ export class LoginPage {
     }
   }
 
+  signInWithFacebook() {
+    this._authProvider.signInWithFacebook()
+    .then( success => {
+      if ( success ) {
+        this.navCtrl.setRoot( HomePage );
+      }
+    });
+  }
+
 }

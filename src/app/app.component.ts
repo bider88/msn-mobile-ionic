@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -18,22 +18,23 @@ export class MyApp {
 
   rootPage: any;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, icon: string, component: any}>;
 
   constructor(
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    private _authProvider: AuthProvider
+    private menuCtrl: MenuController,
+    private _authProvider: AuthProvider,
   ) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage },
-      { title: 'Profile', component: ProfilePage },
-      { title: 'About', component: AboutPage }
+      { title: 'Home', icon: 'home', component: HomePage },
+      { title: 'List', icon: 'list', component: ListPage },
+      { title: 'Profile', icon: 'contact', component: ProfilePage },
+      { title: 'About', icon: 'information-circle', component: AboutPage }
     ];
 
   }
@@ -48,6 +49,8 @@ export class MyApp {
       .then(
         success => {
 
+          console.log(success);
+
           if ( success ) {
             this.rootPage = HomePage;
           } else {
@@ -60,6 +63,15 @@ export class MyApp {
       );
 
     });
+  }
+
+  logout() {
+    this._authProvider.logout().then(
+      () => {
+        this.menuCtrl.close();
+        this.nav.setRoot(LoginPage);
+      }
+    )
   }
 
   openPage(page) {

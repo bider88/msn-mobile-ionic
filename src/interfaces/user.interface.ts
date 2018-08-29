@@ -6,6 +6,7 @@ export interface User {
   password?: string;
   photoURL?: string;
   displayName?: string;
+  provider?: string;
 }
 
 

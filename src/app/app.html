@@ -1,6 +1,6 @@
 <ion-menu [content]="content">
   <ion-header>
-    <ion-toolbar color="toolbar">
+    <ion-toolbar color="primary">
       <button ion-button menuToggle>
         <ion-icon name="arrow-back"></ion-icon>
       </button>
@@ -8,10 +8,18 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
+  <ion-content class="background-msn">
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+        <ion-icon [name]="p.icon"></ion-icon>
+        <span margin-left>{{p.title}}</span>
+      </button>
+    </ion-list>
+    <hr margin-vertical>
+    <ion-list>
+      <button ion-item (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+        <span margin-left>Logout</span>
       </button>
     </ion-list>
   </ion-content>

@@ -14,7 +14,13 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="background-msn">
+<ion-content class="background-msn" text-center *ngIf="!user">
+  <div class="load-spinner">
+    <ion-spinner name="bubbles" color="secondary"></ion-spinner>
+  </div>
+</ion-content>
+
+<ion-content class="background-msn" *ngIf="user">
 
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 
@@ -26,13 +32,13 @@
         </div>
       </ion-col>
       <ion-col col-9 padding>
-        <h3>{{ user.displayName }}</h3>
-        <p>{{ user.email }}</p>
+        <h3>{{ user?.displayName }}</h3>
+        <p>{{ user?.email }}</p>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-list>
+  <ion-list margin-top>
     <ion-item *ngFor="let user of users"
               [ngClass]="{ 'contact-offline' : offlineStatus.includes( user.status ) }"
               (click)="goToConversation( user )">

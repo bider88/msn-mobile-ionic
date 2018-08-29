@@ -60,7 +60,7 @@
     <hr>
     <button *ngIf="!login" ion-button block round (click)="emailSignUp()">Registrarse</button>
     <button *ngIf="login" ion-button block round (click)="emailLogin()">Ingresar</button>
-    <button color="facebook" ion-button block round>
+    <button color="facebook" ion-button block round (click)="signInWithFacebook()">
       <ion-icon name="logo-facebook"></ion-icon>&nbsp;
       Ingresar con Facebook
     </button>
