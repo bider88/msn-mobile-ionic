@@ -79,24 +79,32 @@ export class AuthProvider {
     });
   }
 
-  signInWithFacebook() {
+  signInWithFacebook(status: Status = Status.Online) {
 
     return new Promise( ( resolve, reject ) => {
 
       const user: User = {
-        status: Status.Online
+        status: status || Status.Online
       }
 
       if (this.platform.is('cordova')) {
 
-        this.fb.login(['email', 'public_profile']).then(res => {
+        this.fb.login([ 'email', 'public_profile' ]).then(res => {
           const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
 
           firebase.auth().signInAndRetrieveDataWithCredential(facebookCredential)
           .then( ( res: any ) => {
 
-            this.createUserData( res.user, user, 'Facebook' );
-            resolve( true );
+            if ( res.additionalUserInfo.isNewUser ) {
+              this.createUserData( res.user, user, 'Facebook' );
+              resolve( true );
+            } else {
+              this.updateUserData( res.user, user ).then(
+                () => {
+                  resolve( true );
+                }
+              );
+            }
 
           })
           .catch(error =>  {
@@ -113,8 +121,18 @@ export class AuthProvider {
         .signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then(res => {
 
-          this.createUserData( res.user, user, 'Facebook' );
-          resolve( true );
+          console.log(res);
+
+          if ( res.additionalUserInfo.isNewUser ) {
+            this.createUserData( res.user, user, 'Facebook' );
+            resolve( true );
+          } else {
+            this.updateUserData( res.user, user ).then(
+              () => {
+                resolve( true );
+              }
+            );
+          }
 
         })
         .catch(error =>  {

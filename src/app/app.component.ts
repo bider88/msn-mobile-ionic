@@ -3,12 +3,12 @@ import { Nav, Platform, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { AuthProvider } from '../providers/auth/auth';
+
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
-import { ProfilePage } from '../pages/profile/profile';
 import { AboutPage } from '../pages/about/about';
 import { LoginPage } from '../pages/login/login';
-import { AuthProvider } from '../providers/auth/auth';
+import { ProfilePage } from '../pages/profile/profile';
 
 @Component({
   templateUrl: 'app.html'
@@ -32,9 +32,7 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', icon: 'home', component: HomePage },
-      { title: 'List', icon: 'list', component: ListPage },
-      { title: 'Profile', icon: 'contact', component: ProfilePage },
-      { title: 'About', icon: 'information-circle', component: AboutPage }
+      { title: 'Profile', icon: 'contact', component: ProfilePage }
     ];
 
   }
@@ -72,6 +70,10 @@ export class MyApp {
         this.nav.setRoot(LoginPage);
       }
     )
+  }
+
+  goToAbout() {
+    this.nav.setRoot(AboutPage);
   }
 
   openPage(page) {

@@ -2,9 +2,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
+// Pages
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { ConversationPage } from '../pages/conversation/conversation';
+import { LoginPage } from '../pages/login/login';
+import { AboutPage } from '../pages/about/about';
+import { ProfilePage } from '../pages/profile/profile';
+
+// Pipes
+import { ImageProfilePipe } from '../pipes/image-profile/image-profile';
 
 // Firebase
 import { AngularFireModule } from 'angularfire2';
@@ -22,17 +29,16 @@ import { Facebook } from '@ionic-native/facebook';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { ConversationPage } from '../pages/conversation/conversation';
-import { LoginPage } from '../pages/login/login';
-
 
 @NgModule({
   declarations: [
+    ImageProfilePipe,
     MyApp,
     HomePage,
-    ListPage,
     ConversationPage,
-    LoginPage
+    LoginPage,
+    AboutPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -46,9 +52,10 @@ import { LoginPage } from '../pages/login/login';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     ConversationPage,
-    LoginPage
+    LoginPage,
+    AboutPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,

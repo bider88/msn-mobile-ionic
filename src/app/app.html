@@ -17,6 +17,10 @@
     </ion-list>
     <hr margin-vertical>
     <ion-list>
+      <button menuClose ion-item (click)="goToAbout()">
+        <ion-icon name="information-circle"></ion-icon>
+        <span margin-left>About</span>
+      </button>
       <button ion-item (click)="logout()">
         <ion-icon name="log-out"></ion-icon>
         <span margin-left>Logout</span>

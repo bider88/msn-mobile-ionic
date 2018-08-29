@@ -49,7 +49,7 @@ export class LoginPage {
   }
 
   signInWithFacebook() {
-    this._authProvider.signInWithFacebook()
+    this._authProvider.signInWithFacebook(this.user.status)
     .then( success => {
       if ( success ) {
         this.navCtrl.setRoot( HomePage );
