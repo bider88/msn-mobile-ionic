@@ -26,7 +26,7 @@ export class HomePage {
 
     console.log(this.user);
 
-    // this.getUsers();
+    this.getUsers();
   }
 
   getUsers() {
