@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="toolbar">
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -21,15 +21,13 @@
   <ion-grid id="homeMeContainer">
     <ion-row>
       <ion-col col-3>
-        <div class="avatarFrameOnline">
+        <div class="avatarFrame avatarFrameOnline">
           <img src="assets/img/generic_avatar.png" class="avatarImage img-fluid">
         </div>
       </ion-col>
       <ion-col col-9 padding>
-        Nick<br />
-        <span>Subnick</span>
-        <br />
-        <small>eduardo@gobae.com</small>
+        <h3>{{ user.displayName }}</h3>
+        <p>{{ user.email }}</p>
       </ion-col>
     </ion-row>
   </ion-grid>

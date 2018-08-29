@@ -9,13 +9,21 @@ import { ListPage } from '../pages/list/list';
 // Firebase
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { config } from '../config/config';
+
+// Providers
+import { UserProvider } from '../providers/user/user';
+import { AuthProvider } from '../providers/auth/auth';
+
+// Plugins
+import { IonicStorageModule } from '@ionic/storage';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { UserProvider } from '../providers/user/user';
 import { ConversationPage } from '../pages/conversation/conversation';
 import { LoginPage } from '../pages/login/login';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +37,9 @@ import { LoginPage } from '../pages/login/login';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(config.firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -43,7 +53,8 @@ import { LoginPage } from '../pages/login/login';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UserProvider
+    UserProvider,
+    AuthProvider
   ]
 })
 export class AppModule {}

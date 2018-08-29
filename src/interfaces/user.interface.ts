@@ -1,13 +1,13 @@
-
 export interface User {
-  name: string;
-  age: number;
-  active: boolean;
-  status: Status;
-  nickname?: string;
-  password?: string;
+  status?: Status;
+  active?: boolean;
   uid?: string;
+  email?: string;
+  password?: string;
+  photoURL?: string;
+  displayName?: string;
 }
+
 
 export enum Status {
   Online = 'Online',

@@ -4,6 +4,7 @@ import { ConversationPage } from '../conversation/conversation'
 import { LoginPage } from '../login/login';
 import { User, Status } from '../../interfaces/user.interface';
 import { UserProvider } from '../../providers/user/user';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @Component({
   selector: 'page-home',
@@ -11,15 +12,21 @@ import { UserProvider } from '../../providers/user/user';
 })
 export class HomePage {
 
+  user: User;
   users: User[] = [];
   query: string;
   offlineStatus: Status[] = [ Status.Offline, Status.AppearOffline ];
 
   constructor(
     public navCtrl: NavController,
+    private _authProvider: AuthProvider,
     private _userProvider: UserProvider
   ) {
-    this.getUsers();
+    this.user = this._authProvider.user;
+
+    console.log(this.user);
+
+    // this.getUsers();
   }
 
   getUsers() {

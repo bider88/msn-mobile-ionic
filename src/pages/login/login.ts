@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
+import { User } from '../../interfaces/user.interface';
+import { AuthProvider } from '../../providers/auth/auth';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -8,15 +11,41 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  login: boolean =  true;
+  user: User = {
+    status: null,
+    email: null,
+    password: null,
+    displayName: null
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+  constructor(
+    public navCtrl: NavController,
+    private _authProvider :AuthProvider
+  ) {
   }
 
-  back() {
-    this.navCtrl.pop();
+  emailLogin() {
+    if ( this.user.status && this.user.email && this.user.password ) {
+      this._authProvider.emailLogin(this.user)
+      .then( success => {
+        if ( success ) {
+          this.navCtrl.setRoot( HomePage );
+        }
+      });
+    }
+  }
+
+  emailSignUp() {
+    if ( this.user.status && this.user.email && this.user.password && this.user.displayName ) {
+
+      this._authProvider.emailSignUp(this.user)
+      .then( success => {
+        if ( success ) {
+          this.navCtrl.setRoot( HomePage );
+        }
+      });
+    }
   }
 
 }
