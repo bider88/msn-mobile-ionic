@@ -8,7 +8,7 @@
 
 
 <ion-content class="background-msn">
-  <ion-searchbar (ionClear)="clearModel()" placeholder="Buscar" (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-searchbar (ionClear)="clearModel()" [debounce]="500" placeholder="Buscar por email" (ionInput)="searchUser($event)"></ion-searchbar>
 
   <ion-list margin-top>
     <ion-item *ngFor="let user of users"
@@ -23,5 +23,9 @@
 
     </ion-item>
   </ion-list>
+
+  <div text-center *ngIf="anyResults && noResults()" padding>
+    No se han encontrado resultados para <b>"{{ term }}"</b>
+  </div>
 
 </ion-content>

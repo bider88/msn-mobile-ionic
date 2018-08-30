@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { User, Status } from '../../interfaces/user.interface';
 import { ConversationPage } from '../conversation/conversation';
+import { UserProvider } from '../../providers/user/user';
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @IonicPage()
 @Component({
@@ -11,20 +14,48 @@ import { ConversationPage } from '../conversation/conversation';
 export class SearchPage {
 
   users: User[];
+  user: User;
+  anyResults: boolean = false;
+  term: string = '';
+  searchSubs: Subscription;
   offlineStatus: Status[] = [ Status.Offline, Status.AppearOffline ];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private _userProvider: UserProvider
+  ) {
+    this.user = this.navParams.get('user');
   }
 
-  getItems(ev: any) {
+  searchUser(ev: any) {
 
     // set val to the value of the searchbar
     const val = ev.target.value;
 
     if ( val ) {
 
-      console.log(val);
+      this.searchSubs = this._userProvider.searchUser( val ).valueChanges()
+      .pipe(
+        map( users => users.filter( val => val.uid !== this.user.uid) )
+      )
+      .subscribe(
+        users => {
+          this.users = users;
+
+          if (this.users.length === 0) {
+            this.anyResults = true;
+            this.term = val;
+          } else {
+            this.term = '';
+          }
+        }
+      )
     }
+  }
+
+  noResults() {
+    return this.term.length > 0;
   }
 
   goToConversation(user: User) {
@@ -55,8 +86,16 @@ export class SearchPage {
     return icon
   }
 
+  ionViewWillLeave(){
+    try {
+      this.searchSubs.unsubscribe();
+    } catch {
+
+    }
+  }
+
   clearModel() {
-    console.log('object');
+    this.users = [];
   }
 
 }

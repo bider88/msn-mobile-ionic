@@ -51,6 +51,7 @@ export class MyApp {
           if ( success ) {
             this.rootPage = HomePage;
           } else {
+            this._authProvider.logout();
             this.rootPage = LoginPage;
           }
 

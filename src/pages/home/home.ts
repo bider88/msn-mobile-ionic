@@ -55,7 +55,9 @@ export class HomePage {
   }
 
   goToSearch() {
-    this.navCtrl.push(SearchPage);
+    if ( this.user ) {
+      this.navCtrl.push( SearchPage, { user: this.user } );
+    }
   }
 
   ionViewWillLeave(){

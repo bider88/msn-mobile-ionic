@@ -22,6 +22,12 @@ export class UserProvider {
     this.users = this.afDB.collection<User>('users');
   }
 
+  searchUser(term: string) {
+    return this.afDB.collection<User>('users', ref => {
+      return ref.where( 'email', '>=', term ).limit(20);
+    });
+  }
+
   getUsers() {
     return this.users;
   }

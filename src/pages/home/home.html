@@ -20,40 +20,40 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="background-msn" text-center *ngIf="!user">
-  <div class="load-spinner">
+<ion-content class="background-msn">
+
+  <div class="load-spinner" text-center *ngIf="!user">
     <ion-spinner name="bubbles" color="secondary"></ion-spinner>
   </div>
-</ion-content>
 
-<ion-content class="background-msn" *ngIf="user">
+  <div *ngIf="user">
+    <ion-grid id="homeMeContainer">
+      <ion-row>
+        <ion-col col-3>
+          <div class="avatarFrame avatarFrameOnline">
+            <img src="assets/img/generic_avatar.png" class="avatarImage img-fluid">
+          </div>
+        </ion-col>
+        <ion-col col-9 padding>
+          <h3>{{ user?.displayName }}</h3>
+          <p>{{ user?.email }}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <ion-grid id="homeMeContainer">
-    <ion-row>
-      <ion-col col-3>
-        <div class="avatarFrame avatarFrameOnline">
-          <img src="assets/img/generic_avatar.png" class="avatarImage img-fluid">
-        </div>
-      </ion-col>
-      <ion-col col-9 padding>
-        <h3>{{ user?.displayName }}</h3>
-        <p>{{ user?.email }}</p>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <ion-list margin-top>
+      <ion-item *ngFor="let user of users"
+                [ngClass]="{ 'contact-offline' : offlineStatus.includes( user.status ) }"
+                (click)="goToConversation( user )">
 
-  <ion-list margin-top>
-    <ion-item *ngFor="let user of users"
-              [ngClass]="{ 'contact-offline' : offlineStatus.includes( user.status ) }"
-              (click)="goToConversation( user )">
+        <ion-avatar item-start>
+          <img src="assets/img/{{ getIconByStatus( user.status ) }}.png">
+        </ion-avatar>
+        <h2>{{ user.displayName }}</h2>
+        <span> <small>{{ user.status }}</small> </span>
 
-      <ion-avatar item-start>
-        <img src="assets/img/{{ getIconByStatus( user.status ) }}.png">
-      </ion-avatar>
-      <h2>{{ user.displayName }}</h2>
-      <span> <small>{{ user.status }}</small> </span>
-
-    </ion-item>
-  </ion-list>
+      </ion-item>
+    </ion-list>
+  </div>
 
 </ion-content>
