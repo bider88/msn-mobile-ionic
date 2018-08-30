@@ -154,6 +154,23 @@ export class AuthProvider {
       .catch(error => this.handleError(error));
   }
 
+  getCurrentUserAuth() {
+    console.log(this.afAuth.auth.currentUser);
+    return this.afAuth.auth.currentUser;
+  }
+
+  getStatus() {
+    return this.afAuth.authState;
+  }
+
+  sendEmailVerification() {
+    const user = this.afAuth.auth.currentUser;
+
+    user.sendEmailVerification()
+    .then( res => console.log(res))
+    .catch(err => console.log(err));
+  }
+
   logout() {
     return new Promise( ( resolve, reject ) => {
       this.user = null;
@@ -180,6 +197,7 @@ export class AuthProvider {
 
     this.user = data;
     this.saveStorage();
+    this.sendEmailVerification();
 
     return userRef.set(data);
   }

@@ -20,6 +20,10 @@
 
   <ion-footer>
     <ion-list>
+      <button menuClose ion-item (click)="goToSettings()">
+        <ion-icon name="settings"></ion-icon>
+        <span margin-left>Settings</span>
+      </button>
       <button menuClose ion-item (click)="goToAbout()">
         <ion-icon name="information-circle"></ion-icon>
         <span margin-left>About</span>

@@ -3,8 +3,17 @@ page-home {
     display: inline-block !important;
   }
 
+  #homeMeContainer {
+    margin-top: 64px !important;
+  }
+
   .contact-offline {
     background-color: gray;
     opacity: .5;
+  }
+
+  .search-icon {
+    font-size: 2em !important;
+    padding-right: 10px;
   }
 }

@@ -5,6 +5,7 @@ import { User, Status } from '../../interfaces/user.interface';
 import { UserProvider } from '../../providers/user/user';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs';
+import { SearchPage } from '../search/search';
 
 @Component({
   selector: 'page-home',
@@ -53,19 +54,8 @@ export class HomePage {
     );
   }
 
-  getItems(ev: any) {
-
-    // set val to the value of the searchbar
-    const val = ev.target.value;
-
-    console.log(val);
-
-    // if the value is an empty string don't filter the items
-    // if (val && val.trim() != '') {
-    //   this.items = this.items.filter((item) => {
-    //     return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-    //   })
-    // }
+  goToSearch() {
+    this.navCtrl.push(SearchPage);
   }
 
   ionViewWillLeave(){

@@ -9,6 +9,8 @@ import { ConversationPage } from '../pages/conversation/conversation';
 import { LoginPage } from '../pages/login/login';
 import { AboutPage } from '../pages/about/about';
 import { ProfilePage } from '../pages/profile/profile';
+import { SettingsPage } from '../pages/settings/settings';
+import { SearchPage } from '../pages/search/search';
 
 // Pipes
 import { ImageProfilePipe } from '../pipes/image-profile/image-profile';
@@ -38,7 +40,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ConversationPage,
     LoginPage,
     AboutPage,
-    ProfilePage
+    ProfilePage,
+    SettingsPage,
+    SearchPage
   ],
   imports: [
     BrowserModule,
@@ -55,7 +59,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ConversationPage,
     LoginPage,
     AboutPage,
-    ProfilePage
+    ProfilePage,
+    SettingsPage,
+    SearchPage
   ],
   providers: [
     StatusBar,

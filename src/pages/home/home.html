@@ -6,6 +6,12 @@
     <ion-title>Home</ion-title>
 
     <ion-buttons end>
+      <button ion-button (click)="goToSearch()">
+        <ion-icon class="search-icon" name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-buttons end>
       <button ion-button icon-only color="royal">
         <img src="assets/img/logo_live_add.png" class="icon-in-button ">
       </button>
@@ -21,8 +27,6 @@
 </ion-content>
 
 <ion-content class="background-msn" *ngIf="user">
-
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 
   <ion-grid id="homeMeContainer">
     <ion-row>

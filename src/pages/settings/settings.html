@@ -1,0 +1,21 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Configuraciones</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="background-msn">
+  <ion-list margin-top>
+    <button ion-item (click)="sendEmail()" *ngIf="!userAuth.emailVerified">
+      Enviar email de verificación
+    </button>
+  </ion-list>
+  <button ion-button (click)="getCurrentUserAuth()">User actual</button>
+</ion-content>

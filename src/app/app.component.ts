@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
 import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
+import { SettingsPage } from '../pages/settings/settings';
 
 @Component({
   templateUrl: 'app.html'
@@ -68,6 +69,10 @@ export class MyApp {
         this.nav.setRoot(LoginPage);
       }
     )
+  }
+
+  goToSettings() {
+    this.nav.setRoot(SettingsPage);
   }
 
   goToAbout() {

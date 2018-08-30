@@ -53,11 +53,15 @@ button.button-md.button-default.button-md-facebook, button.button-ios.button-def
 .avatarFrame {
   text-align: center;
   padding: 6px;
-  border-radius: 5px;
+  border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.36);
   -webkit-box-shadow: 3px 3px 21px 1px rgba(0,0,0,0.75);
   -moz-box-shadow: 3px 3px 21px 1px rgba(0,0,0,0.75);
   box-shadow: 3px 3px 21px 1px rgba(0,0,0,0.75);
+}
+
+.avatarFrame img{
+  border-radius: 50%;
 }
 
 .avatarFrame.avatarFrameOnline {

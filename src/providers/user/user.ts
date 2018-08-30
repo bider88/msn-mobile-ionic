@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { User } from '../../interfaces/user.interface';
 
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class UserProvider {
@@ -25,6 +24,10 @@ export class UserProvider {
 
   getUsers() {
     return this.users;
+  }
+
+  updateUser(user: User) {
+    return this.user.update(user);
   }
 
 }
