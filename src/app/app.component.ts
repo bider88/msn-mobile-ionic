@@ -47,8 +47,6 @@ export class MyApp {
       .then(
         success => {
 
-          console.log(success);
-
           if ( success ) {
             this.rootPage = HomePage;
           } else {

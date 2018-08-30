@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 export class HomePage {
 
   user: User;
-  users: User[] = [];
+  users: User[];
   userDocSubs: Subscription;
   userCollSubs: Subscription;
   query: string;
@@ -45,8 +45,11 @@ export class HomePage {
   }
 
   getUsers() {
-    this.userCollSubs = this._userProvider.getUsers().subscribe(
-      users =>  this.users = users
+
+    this.userCollSubs = this._userProvider.getUsers().valueChanges().subscribe(
+      users => {
+        this.users = users
+      }
     );
   }
 
@@ -65,10 +68,10 @@ export class HomePage {
     // }
   }
 
-  // ionViewDidLeave(){
-  //   this.userDocSubs.unsubscribe();
-  //   this.userCollSubs.unsubscribe();
-  // }
+  ionViewWillLeave(){
+    this.userDocSubs.unsubscribe();
+    this.userCollSubs.unsubscribe();
+  }
 
   goToConversation(user: User) {
     this.navCtrl.push(ConversationPage, { user })
