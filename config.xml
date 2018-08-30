@@ -86,4 +86,5 @@
         <variable name="APP_ID" value="220663918801990" />
         <variable name="APP_NAME" value="msn mobile" />
     </plugin>
+    <engine name="android" spec="7.0.0" />
 </widget>
