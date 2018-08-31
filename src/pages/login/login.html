@@ -12,7 +12,11 @@
 
 <ion-content padding class="background-msn bposy0">
   <div id="avatarLogin" text-center>
-    <div class="avatarFrame avatarFrameOffLine">
+    <div class="avatarFrame"
+        [ngClass]="{ 'avatarFrameOnline' : user?.status === 'Online',
+                      'avatarFrameOffLine' : offlineStatus.includes( user?.status ),
+                      'avatarFrameaway' : user?.status === 'Away',
+                      'avatarFramebusy' : user?.status === 'Busy' }" >
       <img src="assets/img/generic_avatar.png" class="avatarImg img-fluid">
     </div>
   </div>
@@ -47,14 +51,14 @@
 
     <ion-item>
       <ion-label fixed>Recordarme</ion-label>
-      <ion-checkbox color="toolbar"></ion-checkbox>
+      <ion-checkbox [(ngModel)]="remember" color="toolbar"></ion-checkbox>
     </ion-item>
   </ion-list>
 
   <div padding>
     <div text-center margin-bottom>
-      <a class="pointer" color="strong" (click)="login=!login" *ngIf="!login">¿Ya tienes cuenta? Inicia sesión.</a>
-      <a class="pointer" (click)="login=!login" *ngIf="login">¿Aún no tienes cuenta? Crea una cuenta.</a>
+      <a class="pointer" color="strong" (click)="isLogin()" *ngIf="!login">¿Ya tienes cuenta? Inicia sesión.</a>
+      <a class="pointer" (click)="isLogin()" *ngIf="login">¿Aún no tienes cuenta? Crea una cuenta.</a>
     </div>
     <hr>
     <button *ngIf="!login" ion-button block round (click)="emailSignUp()">Registrarse</button>

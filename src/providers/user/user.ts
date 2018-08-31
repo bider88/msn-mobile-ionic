@@ -32,8 +32,9 @@ export class UserProvider {
     return this.users;
   }
 
-  updateUser(user: User) {
-    return this.user.update(user);
+  updateUser(user: Partial<User>): Promise<void>  {
+    console.log('update provider:', user);
+    return this.user.update( user );
   }
 
 }

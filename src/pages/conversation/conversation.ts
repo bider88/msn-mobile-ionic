@@ -16,7 +16,6 @@ export class ConversationPage {
     public navParams: NavParams
   ) {
     this.user = this.navParams.get('user');
-    console.log(this.user);
   }
 
 }

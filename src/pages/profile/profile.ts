@@ -4,6 +4,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { User, Status } from '../../interfaces/user.interface';
 import { UserProvider } from '../../providers/user/user';
 import { Subscription } from 'rxjs';
+import { StorageProvider } from '../../providers/storage/storage';
 
 @IonicPage()
 @Component({
@@ -15,44 +16,74 @@ export class ProfilePage {
   userAuth: any;
   user: User;
   userDocSubs: Subscription;
-  userCurrentDocSubs: Subscription;
   offlineStatus: Status[] = [ Status.Offline, Status.AppearOffline ];
 
   constructor(
     public navCtrl: NavController,
     private _authProvider: AuthProvider,
     private toastCtrl: ToastController,
-    private _userProvider: UserProvider
+    private _userProvider: UserProvider,
+    private _storageProvider: StorageProvider
   ) {
-    this.getCurrentUserAuth();
+    this._storageProvider.loadCredentials();
+    this.getCurrentUser();
   }
 
-  getCurrentUserAuth() {
-    this.userCurrentDocSubs = this._authProvider.getStatus().subscribe(
-      ( user: any ) => this.getCurrentUser(user.uid)
-    );
-  }
-
-  getCurrentUser(uid: string) {
-    this._userProvider.getCurrentUser( uid );
-
+  getCurrentUser() {
     this.userDocSubs = this._userProvider.user.valueChanges().subscribe(
       user=> {
         this.user = user;
-        this._authProvider.user = user;
-        this._authProvider.saveStorage();
+        console.log('getCurrentUser:', this.user);
       }
     );
   }
 
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.userDocSubs.unsubscribe();
-    this.userCurrentDocSubs.unsubscribe();
   }
 
   updateUser() {
+
     this._userProvider.updateUser(this.user)
-    .then( () => this.toastCtrl.create({ message: 'Se guardaron los cambios', duration: 2000 }).present() )
+    .then( () => {
+
+      console.log('update:', this.user);
+
+      this.toastCtrl.create({ message: 'Se guardaron los cambios', duration: 2000 }).present();
+
+      this._authProvider.user = this.user;
+      this._authProvider.saveStorage();
+
+      const user = this._storageProvider.storageDev.user;
+
+      if ( user ) {
+
+        const email = user.email;
+
+        if ( email ) {
+          const credentials = {
+            email: this.user.email,
+            status: this.user.status,
+            photoURL: this.user.photoURL,
+            remember: user.remember
+          };
+
+          this._storageProvider.saveCredentials(credentials);
+        } else {
+
+          const credentials = {
+            email: null,
+            status: this.user.status,
+            photoURL: this.user.photoURL,
+            remember: user.remember
+          };
+
+          this._storageProvider.saveCredentials(credentials);
+        }
+
+      }
+
+    })
     .catch( err => console.log(err) );
   }
 

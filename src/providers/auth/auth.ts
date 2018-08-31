@@ -6,6 +6,8 @@ import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firesto
 
 import { User, Status } from '../../interfaces/user.interface';
 
+import { StorageProvider } from './../storage/storage';
+
 import { AlertController, LoadingController, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
@@ -19,6 +21,7 @@ export class AuthProvider {
   userRefSubs: Subscription;
 
   constructor(
+    private _storageProvider: StorageProvider,
     private alertCtrl: AlertController,
     private loadingCtrl:LoadingController,
     private platform: Platform,
@@ -30,7 +33,7 @@ export class AuthProvider {
 
   }
 
-  emailSignUp(user: User) {
+  emailSignUp(user: User, remember: boolean = true) {
 
     const loading = this.showLoading('Registrando cuenta...');
     loading.present();
@@ -41,7 +44,7 @@ export class AuthProvider {
       .createUserWithEmailAndPassword( user.email, user.password )
       .then( credential => {
 
-        this.createUserData( credential.user, user, 'email' );
+        this.createUserData( credential.user, user, 'email', remember );
         loading.dismiss();
         resolve( true );
       })
@@ -54,7 +57,7 @@ export class AuthProvider {
     });
   }
 
-  emailLogin(user: User) {
+  emailLogin(user: User, remember: boolean = true) {
 
     const loading = this.showLoading('Iniciando sesión...');
     loading.present();
@@ -65,7 +68,7 @@ export class AuthProvider {
       .signInWithEmailAndPassword( user.email, user.password )
       .then( credential => {
 
-        this.updateUserData( credential.user, user ).then(
+        this.updateUserData( credential.user, user, remember ).then(
           () => {
             loading.dismiss();
             resolve( true );
@@ -81,7 +84,10 @@ export class AuthProvider {
     });
   }
 
-  signInWithFacebook(status: Status = Status.Online) {
+  signInWithFacebook(status: Status = Status.Online, remember: boolean = true) {
+
+    const loading = this.showLoading('Iniciando con Facebook...');
+    loading.present();
 
     return new Promise( ( resolve, reject ) => {
 
@@ -98,12 +104,14 @@ export class AuthProvider {
           .then( ( res: any ) => {
 
             if ( res.additionalUserInfo.isNewUser ) {
-              this.createUserData( res.user, user, 'Facebook' );
+              this.createUserData( res.user, user, 'Facebook', remember, true );
               resolve( true );
+              loading.dismiss();
             } else {
-              this.updateUserData( res.user, user ).then(
+              this.updateUserData( res.user, user, remember, true ).then(
                 () => {
                   resolve( true );
+                  loading.dismiss();
                 }
               );
             }
@@ -123,15 +131,15 @@ export class AuthProvider {
         .signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then(res => {
 
-          console.log(res);
-
           if ( res.additionalUserInfo.isNewUser ) {
-            this.createUserData( res.user, user, 'Facebook' );
+            this.createUserData( res.user, user, 'Facebook', remember, true );
             resolve( true );
+            loading.dismiss();
           } else {
-            this.updateUserData( res.user, user ).then(
+            this.updateUserData( res.user, user, remember, true ).then(
               () => {
                 resolve( true );
+                loading.dismiss();
               }
             );
           }
@@ -187,7 +195,7 @@ export class AuthProvider {
     });
   }
 
-  private createUserData(credential: User, user: User, provider: string) {
+  private createUserData(credential: User, user: User, provider: string, remember: boolean, isFacebook: boolean = false) {
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(
       `users/${credential.uid}`
     );
@@ -201,6 +209,27 @@ export class AuthProvider {
       provider
     };
 
+    if ( remember ) {
+
+      const email = isFacebook ? null : data.email;
+
+      const credentials = {
+        email,
+        status: data.status,
+        photoURL: data.photoURL,
+        remember: remember
+      };
+
+      this._storageProvider.saveCredentials(credentials);
+
+    } else {
+
+      const credentials = {
+        remember: remember
+      };
+      this._storageProvider.saveCredentials(credentials);
+    }
+
     this.user = data;
     this.saveStorage();
     this.sendEmailVerification();
@@ -208,7 +237,7 @@ export class AuthProvider {
     return userRef.set(data);
   }
 
-  private updateUserData(credential: User, user: User) {
+  private updateUserData(credential: User, user: User, remember: boolean, isFacebook: boolean = false) {
     return new Promise( ( resolve, reject ) => {
 
       const userRef: AngularFirestoreDocument<User> = this.afs.doc(
@@ -221,6 +250,28 @@ export class AuthProvider {
           const data: User = res;
 
           this.user = data;
+
+          if ( remember ) {
+
+            const email = isFacebook ? null : data.email;
+
+            const credentials = {
+              email,
+              status: data.status,
+              photoURL: data.photoURL,
+              remember: remember
+            };
+
+            this._storageProvider.saveCredentials(credentials);
+
+          } else {
+
+            const credentials = {
+              remember: remember
+            };
+            this._storageProvider.saveCredentials(credentials);
+          }
+
           this.saveStorage();
 
           userRef.set(data);
@@ -277,7 +328,6 @@ export class AuthProvider {
       }
     }
   }
-
 
   showAlert(subTitle: string = 'Información', message: string) {
     return this.alertCtrl.create({

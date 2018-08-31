@@ -31,6 +31,7 @@ import { Facebook } from '@ionic-native/facebook';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { StorageProvider } from '../providers/storage/storage';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Facebook,
     UserProvider,
-    AuthProvider
+    AuthProvider,
+    StorageProvider
   ]
 })
 export class AppModule {}
