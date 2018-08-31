@@ -10,11 +10,13 @@ import { AlertController, LoadingController, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { Facebook } from '@ionic-native/facebook';
+import { Subscription } from 'rxjs';
 
 @Injectable()
 export class AuthProvider {
 
   user: User;
+  userRefSubs: Subscription;
 
   constructor(
     private alertCtrl: AlertController,
@@ -148,19 +150,12 @@ export class AuthProvider {
   resetPassword(email: string) {
     const fbAuth = firebase.auth();
 
-    return fbAuth
-      .sendPasswordResetEmail(email)
-      .then(() => console.log('send email') )
+    fbAuth.sendPasswordResetEmail(email)
+      .then(() => {
+        const alert = this.showAlert('Enlace para restablecer contraseña, se ha enviado correctamente', `Ingresa al correo electrónico ${ email } para restablecer la contraseña. Si no lo encuentras, revisa en tu bandeja de correos no deseados o spam.`);
+        alert.present();
+      })
       .catch(error => this.handleError(error));
-  }
-
-  getCurrentUserAuth() {
-    console.log(this.afAuth.auth.currentUser);
-    return this.afAuth.auth.currentUser;
-  }
-
-  getStatus() {
-    return this.afAuth.authState;
   }
 
   sendEmailVerification() {
@@ -171,11 +166,22 @@ export class AuthProvider {
     .catch(err => console.log(err));
   }
 
+  getCurrentUserAuth() {
+    return this.afAuth.auth.currentUser;
+  }
+
+  getStatus() {
+    return this.afAuth.authState;
+  }
+
   logout() {
     return new Promise( ( resolve, reject ) => {
       this.user = null;
 
       this.afAuth.auth.signOut();
+      try {
+        this.userRefSubs.unsubscribe();
+      } catch(e) { }
       this.saveStorage();
       resolve();
     });
@@ -209,7 +215,7 @@ export class AuthProvider {
         `users/${credential.uid}`
       );
 
-      userRef.valueChanges().subscribe(
+      this.userRefSubs = userRef.valueChanges().subscribe(
         res =>  {
           res.status = user.status;
           const data: User = res;
@@ -273,10 +279,11 @@ export class AuthProvider {
   }
 
 
-  showAlert(title: string = 'Información', message: string) {
+  showAlert(subTitle: string = 'Información', message: string) {
     return this.alertCtrl.create({
-      title,
-      message
+      subTitle,
+      message,
+      buttons: ['OK']
     });
   }
 

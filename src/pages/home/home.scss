@@ -3,6 +3,10 @@ page-home {
     display: inline-block !important;
   }
 
+  .avatarFrame {
+    width: 90% !important;
+  }
+
   .contact-offline {
     background-color: gray;
     opacity: .5;
@@ -11,5 +15,13 @@ page-home {
   .search-icon {
     font-size: 2em !important;
     padding-right: 10px;
+  }
+
+  ion-list ion-item span {
+    color: #777676;
+  }
+
+  ion-list .contact-offline span {
+    color: #161616;
   }
 }

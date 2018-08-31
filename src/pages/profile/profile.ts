@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { User } from '../../interfaces/user.interface';
+import { User, Status } from '../../interfaces/user.interface';
 import { UserProvider } from '../../providers/user/user';
 import { Subscription } from 'rxjs';
 
@@ -16,6 +16,7 @@ export class ProfilePage {
   user: User;
   userDocSubs: Subscription;
   userCurrentDocSubs: Subscription;
+  offlineStatus: Status[] = [ Status.Offline, Status.AppearOffline ];
 
   constructor(
     public navCtrl: NavController,

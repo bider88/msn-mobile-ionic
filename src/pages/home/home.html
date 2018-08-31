@@ -29,12 +29,16 @@
   <div *ngIf="user">
     <ion-grid id="homeMeContainer">
       <ion-row>
-        <ion-col col-3>
-          <div class="avatarFrame avatarFrameOnline">
+        <ion-col col-4>
+          <div class="avatarFrame" margin
+          [ngClass]="{ 'avatarFrameOnline' : user.status === 'Online',
+                       'avatarFrameOffLine' : offlineStatus.includes( user.status ),
+                       'avatarFrameaway' : user.status === 'Away',
+                       'avatarFramebusy' : user.status === 'Busy' }" >
             <img src="assets/img/generic_avatar.png" class="avatarImage img-fluid">
           </div>
         </ion-col>
-        <ion-col col-9 padding>
+        <ion-col col-8 padding margin-top>
           <h3>{{ user?.displayName }}</h3>
           <p>{{ user?.email }}</p>
         </ion-col>

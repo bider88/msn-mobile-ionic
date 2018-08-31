@@ -1,14 +1,14 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Buscar</ion-title>
+    <!-- <ion-title>Buscar</ion-title> -->
+    <ion-searchbar (ionClear)="clearModel()" [debounce]="500" placeholder="Buscar por email" (ionInput)="searchUser($event)"></ion-searchbar>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content class="background-msn">
-  <ion-searchbar (ionClear)="clearModel()" [debounce]="500" placeholder="Buscar por email" (ionInput)="searchUser($event)"></ion-searchbar>
+<ion-content>
 
   <ion-list margin-top>
     <ion-item *ngFor="let user of users"

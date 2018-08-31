@@ -52,7 +52,7 @@ export class MyApp {
             this.rootPage = HomePage;
           } else {
             this._authProvider.logout();
-            this.rootPage = LoginPage;
+            this.nav.setRoot(LoginPage);
           }
 
           this.statusBar.backgroundColorByHexString('#5caece');
